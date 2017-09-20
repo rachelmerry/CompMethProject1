@@ -195,3 +195,51 @@ Next k
     
 End Sub
 
+Sub Division()
+
+'#### incompatible matrix size####
+If com1 > row2 Then
+    MsgBox "Incompatible matrix sizes."
+    Matrix.Show
+    Unload Matrix
+ElseIf row2 > com1 Then
+    MsgBox "Incompatible matrix sizes."
+    Matrix.Show
+    Unload Matrix
+End If
+
+Dim vect1() As Variant, vect2() As Variant, vect3() As Variant, vect2inverse() As Variant
+
+
+ReDim vect1(row1, com1), vect2(row2, com2), vect3(row1, com2), vect2inverse(row2, com2)
+
+
+vect2inverse = WorksheetFunction.MInverse(vect2)
+
+Dim i As Integer, j As Integer, b As Integer, w() As Variant
+ReDim w(row1, com2)
+
+For i = 1 To row1
+    For j = 1 To com2
+        For b = 1 To row2
+            w(i, j) = vect1(i, b) * vect2inverse(b, j)
+            vect3(i, j) = vect3(i, j) + w(i, j)
+        Next b
+    Next j
+Next i
+
+
+' ####Print to message box loop####
+Dim k As Integer
+Dim kk As Integer
+Dim msg As String
+
+For k = 1 To row1
+    For kk = 1 To com2
+        msg = msg & vect3(k, kk) & vbTab
+    Next kk
+    msg = msg & vbCrLf
+Next k
+    MsgBox msg
+End Sub
+
